@@ -1,4 +1,4 @@
-Package: unfiy
+Package: unifyr
 Title: Post-Import Tools for Analysis-Ready Panel Data
 Version: 0.0.0.9000
 Authors@R: 
@@ -22,5 +22,5 @@ Suggests:
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/desirajulavanya/unfiy
-BugReports: https://github.com/desirajulavanya/unfiy/issues
+URL: https://github.com/desirajulavanya/R-Package-Unify
+BugReports: https://github.com/desirajulavanya/R-Package-Unify/issues
