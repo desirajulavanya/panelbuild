@@ -22,3 +22,5 @@ Suggests:
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://github.com/desirajulavanya/unfiy
+BugReports: https://github.com/desirajulavanya/unfiy/issues
