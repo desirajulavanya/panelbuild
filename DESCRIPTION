@@ -2,11 +2,8 @@ Package: unifyr
 Title: Post-Import Tools for Analysis-Ready Panel Data
 Version: 0.0.0.9000
 Authors@R: 
-    person("Lavanya", "Desiraju", , "desirajulavanya@gmail.com", role = c("aut", "cre"))
-Description: Provides tidyverse-friendly tools for auditing, diagnosing, and
-    documenting panel datasets after import. The package focuses on transparent
-    panel structure checks, gap detection, duplicate identification, and
-    reproducible audit trails for empirical research workflows.
+    person("Lavanya", "Desiraju", email = "desirajulavanya@gmail.com", role = c("aut", "cre"))
+Description: Provides tidyverse-friendly tools for auditing, diagnosing, and documenting panel datasets after import. The package focuses on transparent panel structure checks, gap detection, duplicate identification, and reproducible audit trails for empirical research workflows.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

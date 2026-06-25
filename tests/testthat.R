@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(unfiy)
+library(unifyr)
 
-test_check("unfiy")
+test_check("unifyr")
