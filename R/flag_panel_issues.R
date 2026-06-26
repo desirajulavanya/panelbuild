@@ -1,25 +1,46 @@
-#' Flag panel data issues
+#' Flag row-level panel data issues
 #'
-#' `flag_panel_issues()` adds transparent row-level audit flags to a panel
-#' dataset. It does not modify, complete, or impute the data.
+#' `flag_panel_issues()` adds row-level audit flags to a panel dataset. It
+#' identifies duplicate unit-time observations while preserving the original
+#' data structure.
+#'
+#' @details
+#' This function is useful when users want to inspect problematic rows directly
+#' rather than only receiving a summary table. It adds diagnostic columns that
+#' indicate how many times each unit-time cell appears and whether the row is
+#' part of a duplicate cell.
+#'
+#' `flag_panel_issues()` does not add rows, remove rows, complete the panel, or
+#' impute missing values.
 #'
 #' @param data A data frame or tibble.
-#' @param id Unquoted column name identifying the panel unit.
-#' @param time Unquoted column name identifying the time period.
+#' @param id Unquoted column name identifying the panel unit, such as a person,
+#'   firm, district, county, or country.
+#' @param time Unquoted column name identifying the time period, such as a year,
+#'   month, quarter, or date.
 #'
-#' @return A tibble with additional audit columns:
-#'   `unfiy_row_id`, `unfiy_id_time_n`, and `unfiy_duplicate_cell`.
+#' @return
+#' A tibble containing the original data plus row-level audit columns:
+#'
+#' \describe{
+#'   \item{`unfiy_row_id`}{Integer row identifier based on the original row order.}
+#'   \item{`unfiy_id_time_n`}{Number of rows with the same unit-time combination.}
+#'   \item{`unfiy_duplicate_cell`}{Logical indicator for rows that belong to a
+#'   duplicate unit-time cell.}
+#' }
+#'
+#' The returned tibble also includes attributes documenting the panel identifier,
+#' time variable, and audit note.
+#'
+#' @seealso
+#' [audit_panel()], [duplicate_summary()], [duplicate_cells()],
+#' [complete_panel()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B", "B", "B"),
-#'   year = c(2020, 2021, 2020, 2021, 2021),
-#'   wage = c(100, 110, 90, 95, 96)
-#' )
-#'
-#' flag_panel_issues(df, id = district, time = year)
+#' flag_panel_issues(example_panel, id = id, time = year)
 #'
 #' @export
+
 flag_panel_issues <- function(data, id, time) {
   if (!inherits(data, "data.frame")) {
     stop("`data` must be a data frame or tibble.", call. = FALSE)

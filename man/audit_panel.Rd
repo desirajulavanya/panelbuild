@@ -9,28 +9,39 @@ audit_panel(data, id, time)
 \arguments{
 \item{data}{A data frame or tibble.}
 
-\item{id}{Unquoted column name identifying the panel unit.}
+\item{id}{Unquoted column name identifying the panel unit, such as a person,
+firm, district, county, or country.}
 
-\item{time}{Unquoted column name identifying the time period.}
+\item{time}{Unquoted column name identifying the time period, such as a year,
+month, quarter, or date.}
 }
 \value{
-An object of class \code{unfiy_panel_audit}.
+An object of class \code{unfiy_panel_audit}. The object is a list containing panel
+metadata, balance information, counts of missing and duplicate unit-time
+cells, and data frames containing the missing and duplicate cells.
 }
 \description{
-\code{audit_panel()} checks the basic structure of a panel dataset. It reports
-the number of units, time periods, observed rows, expected rows, missing
-id-time cells, duplicate id-time cells, and whether the panel is balanced.
+\code{audit_panel()} checks whether a dataset has the expected structure of a
+panel dataset. It reports the number of panel units, time periods, observed
+rows, unique unit-time cells, expected unit-time cells, missing unit-time
+cells, duplicate unit-time cells, and whether the panel is balanced.
 }
 \details{
-The function does not modify the input data.
+A panel is treated as balanced when every observed panel unit appears in
+every observed time period exactly once. Missing cells are unit-time
+combinations that are implied by the full unit-by-time grid but are not
+present in the data. Duplicate cells are unit-time combinations that appear
+more than once.
+
+\code{audit_panel()} does not modify the input data. It returns an audit object
+that can be summarized with \code{audit_summary()} and inspected with accessor
+functions such as \code{missing_cells()} and \code{duplicate_cells()}.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B", "B", "B"),
-  year = c(2020, 2021, 2020, 2021, 2021),
-  wage = c(100, 110, 90, 95, 96)
-)
+audit_panel(example_panel, id = id, time = year)
 
-audit_panel(df, id = district, time = year)
-
+}
+\seealso{
+\code{\link[=audit_summary]{audit_summary()}}, \code{\link[=missing_cells]{missing_cells()}}, \code{\link[=duplicate_cells]{duplicate_cells()}},
+\code{\link[=duplicate_summary]{duplicate_summary()}}, \code{\link[=gap_summary]{gap_summary()}}, \code{\link[=complete_panel]{complete_panel()}}
 }

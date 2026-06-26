@@ -2,7 +2,7 @@
 % Please edit documentation in R/panel_gaps.R
 \name{gap_summary}
 \alias{gap_summary}
-\title{Summarize panel gaps by unit}
+\title{Summarize missing panel periods by unit}
 \usage{
 gap_summary(data, id, time)
 }
@@ -14,22 +14,26 @@ gap_summary(data, id, time)
 \item{time}{Unquoted column name identifying the time period.}
 }
 \value{
-A tibble with one row per unit and the number of missing periods.
+A tibble with one row per panel unit and a column
+\code{unfiy_missing_periods} giving the number of missing time periods for that
+unit. If no gaps are present, all units are returned with zero missing
+periods.
 }
 \description{
 \code{gap_summary()} reports how many time periods are missing for each panel
 unit.
 }
 \details{
-The function does not modify, complete, or impute the data.
+This function summarizes the missing unit-time cells returned by
+\code{\link[=panel_gaps]{panel_gaps()}} at the panel-unit level. It is useful for identifying which
+units contribute most to panel imbalance.
+
+The function does not modify, complete, or impute the input data.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B", "C", "C"),
-  year = c(2020, 2021, 2020, 2020, 2022),
-  wage = c(100, 110, 90, 80, 85)
-)
+gap_summary(example_panel, id = id, time = year)
 
-gap_summary(df, id = district, time = year)
-
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=panel_gaps]{panel_gaps()}}, \code{\link[=missing_cells]{missing_cells()}}, \code{\link[=complete_panel]{complete_panel()}}
 }

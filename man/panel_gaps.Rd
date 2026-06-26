@@ -2,7 +2,7 @@
 % Please edit documentation in R/panel_gaps.R
 \name{panel_gaps}
 \alias{panel_gaps}
-\title{Identify gaps in a panel dataset}
+\title{Identify missing unit-time cells}
 \usage{
 panel_gaps(data, id, time)
 }
@@ -14,23 +14,26 @@ panel_gaps(data, id, time)
 \item{time}{Unquoted column name identifying the time period.}
 }
 \value{
-A tibble containing missing id-time combinations.
+A tibble containing missing unit-time combinations.
 }
 \description{
-\code{panel_gaps()} returns the missing id-time combinations in a panel dataset.
-It is a direct data-frame interface to the missing-cell information produced
-by \code{\link[=audit_panel]{audit_panel()}}.
+\code{panel_gaps()} returns the missing unit-time combinations implied by the
+full panel grid.
 }
 \details{
-The function does not modify, complete, or impute the data.
+A missing unit-time cell is a combination of an observed panel unit and an
+observed time period that does not appear in the data. For example, if unit
+\code{A} appears in 2020 and 2022, and 2021 is an observed time period elsewhere
+in the dataset, then \code{A}-2021 is treated as a missing unit-time cell.
+
+This function is a data-frame interface to the missing-cell information
+produced by \code{\link[=audit_panel]{audit_panel()}}. It does not modify, complete, or impute the
+input data.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B"),
-  year = c(2020, 2021, 2020),
-  wage = c(100, 110, 90)
-)
+panel_gaps(example_panel, id = id, time = year)
 
-panel_gaps(df, id = district, time = year)
-
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=missing_cells]{missing_cells()}}, \code{\link[=gap_summary]{gap_summary()}}, \code{\link[=complete_panel]{complete_panel()}}
 }

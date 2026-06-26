@@ -2,7 +2,7 @@
 % Please edit documentation in R/audit_accessors.R
 \name{missing_cells}
 \alias{missing_cells}
-\title{Extract missing panel cells}
+\title{Extract missing unit-time cells from a panel audit}
 \usage{
 missing_cells(x)
 }
@@ -10,20 +10,24 @@ missing_cells(x)
 \item{x}{An object created by \code{\link[=audit_panel]{audit_panel()}}.}
 }
 \value{
-A tibble containing missing id-time combinations.
+A tibble containing missing unit-time combinations.
 }
 \description{
-\code{missing_cells()} extracts the missing id-time combinations from an
-\code{unfiy_panel_audit} object.
+\code{missing_cells()} extracts the missing unit-time combinations stored in an
+audit object created by \code{\link[=audit_panel]{audit_panel()}}.
+}
+\details{
+Missing cells are unit-time combinations that are implied by the full
+unit-by-time grid but are not present in the original data.
+
+This function does not re-audit the original dataset. It simply extracts the
+missing-cell table already stored in the audit object.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B"),
-  year = c(2020, 2021, 2020),
-  wage = c(100, 110, 90)
-)
-
-audit <- audit_panel(df, id = district, time = year)
+audit <- audit_panel(example_panel, id = id, time = year)
 missing_cells(audit)
 
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=panel_gaps]{panel_gaps()}}, \code{\link[=gap_summary]{gap_summary()}}, \code{\link[=complete_panel]{complete_panel()}}
 }

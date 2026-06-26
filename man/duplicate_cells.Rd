@@ -2,7 +2,7 @@
 % Please edit documentation in R/audit_accessors.R
 \name{duplicate_cells}
 \alias{duplicate_cells}
-\title{Extract duplicate panel cells}
+\title{Extract duplicate unit-time cells from a panel audit}
 \usage{
 duplicate_cells(x)
 }
@@ -10,20 +10,26 @@ duplicate_cells(x)
 \item{x}{An object created by \code{\link[=audit_panel]{audit_panel()}}.}
 }
 \value{
-A tibble containing duplicate id-time combinations and counts.
+A tibble containing duplicate unit-time combinations and a count column \code{n}.
 }
 \description{
-\code{duplicate_cells()} extracts duplicate id-time combinations from an
-\code{unfiy_panel_audit} object.
+\code{duplicate_cells()} extracts duplicate unit-time combinations stored in an
+audit object created by \code{\link[=audit_panel]{audit_panel()}}.
+}
+\details{
+Duplicate cells are unit-time combinations that appear more than once in the
+original data. The returned table includes a count column \code{n} showing how
+many rows are present for each duplicated unit-time cell.
+
+This function does not re-audit the original dataset. It simply extracts the
+duplicate-cell table already stored in the audit object.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B", "B", "B"),
-  year = c(2020, 2021, 2020, 2021, 2021),
-  wage = c(100, 110, 90, 95, 96)
-)
-
-audit <- audit_panel(df, id = district, time = year)
+audit <- audit_panel(example_panel, id = id, time = year)
 duplicate_cells(audit)
 
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=panel_duplicates]{panel_duplicates()}}, \code{\link[=duplicate_summary]{duplicate_summary()}},
+\code{\link[=flag_panel_issues]{flag_panel_issues()}}
 }

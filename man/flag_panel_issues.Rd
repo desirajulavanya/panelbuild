@@ -2,32 +2,51 @@
 % Please edit documentation in R/flag_panel_issues.R
 \name{flag_panel_issues}
 \alias{flag_panel_issues}
-\title{Flag panel data issues}
+\title{Flag row-level panel data issues}
 \usage{
 flag_panel_issues(data, id, time)
 }
 \arguments{
 \item{data}{A data frame or tibble.}
 
-\item{id}{Unquoted column name identifying the panel unit.}
+\item{id}{Unquoted column name identifying the panel unit, such as a person,
+firm, district, county, or country.}
 
-\item{time}{Unquoted column name identifying the time period.}
+\item{time}{Unquoted column name identifying the time period, such as a year,
+month, quarter, or date.}
 }
 \value{
-A tibble with additional audit columns:
-\code{unfiy_row_id}, \code{unfiy_id_time_n}, and \code{unfiy_duplicate_cell}.
+A tibble containing the original data plus row-level audit columns:
+
+\describe{
+\item{\code{unfiy_row_id}}{Integer row identifier based on the original row order.}
+\item{\code{unfiy_id_time_n}}{Number of rows with the same unit-time combination.}
+\item{\code{unfiy_duplicate_cell}}{Logical indicator for rows that belong to a
+duplicate unit-time cell.}
+}
+
+The returned tibble also includes attributes documenting the panel identifier,
+time variable, and audit note.
 }
 \description{
-\code{flag_panel_issues()} adds transparent row-level audit flags to a panel
-dataset. It does not modify, complete, or impute the data.
+\code{flag_panel_issues()} adds row-level audit flags to a panel dataset. It
+identifies duplicate unit-time observations while preserving the original
+data structure.
+}
+\details{
+This function is useful when users want to inspect problematic rows directly
+rather than only receiving a summary table. It adds diagnostic columns that
+indicate how many times each unit-time cell appears and whether the row is
+part of a duplicate cell.
+
+\code{flag_panel_issues()} does not add rows, remove rows, complete the panel, or
+impute missing values.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B", "B", "B"),
-  year = c(2020, 2021, 2020, 2021, 2021),
-  wage = c(100, 110, 90, 95, 96)
-)
+flag_panel_issues(example_panel, id = id, time = year)
 
-flag_panel_issues(df, id = district, time = year)
-
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=duplicate_summary]{duplicate_summary()}}, \code{\link[=duplicate_cells]{duplicate_cells()}},
+\code{\link[=complete_panel]{complete_panel()}}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/audit_summary.R
 \name{audit_summary}
 \alias{audit_summary}
-\title{Summarize a panel audit as a tibble}
+\title{Summarize a panel audit}
 \usage{
 audit_summary(x)
 }
@@ -10,21 +10,40 @@ audit_summary(x)
 \item{x}{An object created by \code{\link[=audit_panel]{audit_panel()}}.}
 }
 \value{
-A one-row tibble with panel audit statistics.
+A one-row tibble with the following columns:
+
+\describe{
+\item{\code{data}}{Name of the audited object.}
+\item{\code{id}}{Name of the panel unit column.}
+\item{\code{time}}{Name of the time column.}
+\item{\code{n_units}}{Number of unique panel units.}
+\item{\code{n_periods}}{Number of unique time periods.}
+\item{\code{observed_rows}}{Number of rows in the original data.}
+\item{\code{observed_id_time_cells}}{Number of unique observed unit-time cells.}
+\item{\code{expected_cells}}{Number of cells in the full unit-by-time grid.}
+\item{\code{missing_cells}}{Number of missing unit-time cells.}
+\item{\code{duplicate_cells}}{Number of duplicate unit-time cells.}
+\item{\code{balanced}}{Logical indicator for whether the panel is balanced.}
+}
 }
 \description{
-\code{audit_summary()} converts an \code{unfiy_panel_audit} object into a one-row
-tibble. This is useful for storing audit results, comparing datasets, and
-building reproducible data reports.
+\code{audit_summary()} converts an audit object created by \code{\link[=audit_panel]{audit_panel()}} into a
+one-row tibble of panel diagnostics.
+}
+\details{
+This function is useful when users want a compact, tabular summary of a panel
+audit. The resulting tibble can be printed, saved, joined with other metadata,
+or combined across multiple datasets.
+
+The summary includes the number of units, number of time periods, observed
+rows, observed unit-time cells, expected unit-time cells, missing cells,
+duplicate cells, and a logical indicator for whether the panel is balanced.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B"),
-  year = c(2020, 2021, 2020),
-  wage = c(100, 110, 90)
-)
-
-audit <- audit_panel(df, id = district, time = year)
+audit <- audit_panel(example_panel, id = id, time = year)
 audit_summary(audit)
 
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=missing_cells]{missing_cells()}}, \code{\link[=duplicate_cells]{duplicate_cells()}}
 }

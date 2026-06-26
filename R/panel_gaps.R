@@ -1,27 +1,36 @@
-#' Identify gaps in a panel dataset
+
+#' Identify missing unit-time cells
 #'
-#' `panel_gaps()` returns the missing id-time combinations in a panel dataset.
-#' It is a direct data-frame interface to the missing-cell information produced
-#' by [audit_panel()].
+#' `panel_gaps()` returns the missing unit-time combinations implied by the
+#' full panel grid.
 #'
-#' The function does not modify, complete, or impute the data.
+#' @details
+#' A missing unit-time cell is a combination of an observed panel unit and an
+#' observed time period that does not appear in the data. For example, if unit
+#' `A` appears in 2020 and 2022, and 2021 is an observed time period elsewhere
+#' in the dataset, then `A`-2021 is treated as a missing unit-time cell.
+#'
+#' This function is a data-frame interface to the missing-cell information
+#' produced by [audit_panel()]. It does not modify, complete, or impute the
+#' input data.
 #'
 #' @param data A data frame or tibble.
 #' @param id Unquoted column name identifying the panel unit.
 #' @param time Unquoted column name identifying the time period.
 #'
-#' @return A tibble containing missing id-time combinations.
+#' @return
+#' A tibble containing missing unit-time combinations.
+#'
+#' @seealso
+#' [audit_panel()], [missing_cells()], [gap_summary()], [complete_panel()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B"),
-#'   year = c(2020, 2021, 2020),
-#'   wage = c(100, 110, 90)
-#' )
-#'
-#' panel_gaps(df, id = district, time = year)
+#' panel_gaps(example_panel, id = id, time = year)
 #'
 #' @export
+
+
+
 panel_gaps <- function(data, id, time) {
   if (!inherits(data, "data.frame")) {
     stop("`data` must be a data frame or tibble.", call. = FALSE)
@@ -36,30 +45,38 @@ panel_gaps <- function(data, id, time) {
 }
 
 
-
-#' Summarize panel gaps by unit
+#' Summarize missing panel periods by unit
 #'
 #' `gap_summary()` reports how many time periods are missing for each panel
 #' unit.
 #'
-#' The function does not modify, complete, or impute the data.
+#' @details
+#' This function summarizes the missing unit-time cells returned by
+#' [panel_gaps()] at the panel-unit level. It is useful for identifying which
+#' units contribute most to panel imbalance.
+#'
+#' The function does not modify, complete, or impute the input data.
 #'
 #' @param data A data frame or tibble.
 #' @param id Unquoted column name identifying the panel unit.
 #' @param time Unquoted column name identifying the time period.
 #'
-#' @return A tibble with one row per unit and the number of missing periods.
+#' @return
+#' A tibble with one row per panel unit and a column
+#' `unfiy_missing_periods` giving the number of missing time periods for that
+#' unit. If no gaps are present, all units are returned with zero missing
+#' periods.
+#'
+#' @seealso
+#' [audit_panel()], [panel_gaps()], [missing_cells()], [complete_panel()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B", "C", "C"),
-#'   year = c(2020, 2021, 2020, 2020, 2022),
-#'   wage = c(100, 110, 90, 80, 85)
-#' )
-#'
-#' gap_summary(df, id = district, time = year)
+#' gap_summary(example_panel, id = id, time = year)
 #'
 #' @export
+
+
+
 gap_summary <- function(data, id, time) {
   if (!inherits(data, "data.frame")) {
     stop("`data` must be a data frame or tibble.", call. = FALSE)

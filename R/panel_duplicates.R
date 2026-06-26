@@ -1,7 +1,13 @@
-#' Identify duplicate id-time cells in a panel dataset
+#' Identify duplicate unit-time cells
 #'
-#' `panel_duplicates()` returns id-time combinations that appear more than once
-#' in a panel dataset.
+#' `panel_duplicates()` returns unit-time combinations that appear more than
+#' once in a panel dataset.
+#'
+#' @details
+#' Duplicate unit-time cells occur when the same panel unit appears more than
+#' once in the same time period. These duplicates can create problems for panel
+#' completion, fixed effects models, difference-in-differences designs, and
+#' other longitudinal-data workflows.
 #'
 #' The function does not modify, drop, aggregate, or impute the data.
 #'
@@ -9,16 +15,15 @@
 #' @param id Unquoted column name identifying the panel unit.
 #' @param time Unquoted column name identifying the time period.
 #'
-#' @return A tibble containing duplicate id-time combinations and counts.
+#' @return
+#' A tibble containing duplicate unit-time combinations and a count column `n`.
+#'
+#' @seealso
+#' [audit_panel()], [duplicate_summary()], [duplicate_cells()],
+#' [flag_panel_issues()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B", "B", "B"),
-#'   year = c(2020, 2021, 2020, 2021, 2021),
-#'   wage = c(100, 110, 90, 95, 96)
-#' )
-#'
-#' panel_duplicates(df, id = district, time = year)
+#' panel_duplicates(example_panel, id = id, time = year)
 #'
 #' @export
 panel_duplicates <- function(data, id, time) {
@@ -34,11 +39,19 @@ panel_duplicates <- function(data, id, time) {
   duplicate_cells(audit)
 }
 
-
-#' Summarize duplicate id-time cells by unit
+#' Summarize duplicate unit-time cells by panel unit
 #'
-#' `duplicate_summary()` reports how many duplicate id-time cells each panel
+#' `duplicate_summary()` reports how many duplicate unit-time cells each panel
 #' unit has.
+#'
+#' @details
+#' This function summarizes duplicate cells at the panel-unit level. It is useful
+#' when users want to identify which units contribute most to duplicate
+#' unit-time observations.
+#'
+#' The output reports both the number of duplicated cells and the number of
+#' extra rows implied by those duplicates. For example, if one unit-time cell
+#' appears three times, it counts as one duplicate cell and two extra rows.
 #'
 #' The function does not modify, drop, aggregate, or impute the data.
 #'
@@ -46,18 +59,67 @@ panel_duplicates <- function(data, id, time) {
 #' @param id Unquoted column name identifying the panel unit.
 #' @param time Unquoted column name identifying the time period.
 #'
-#' @return A tibble with one row per unit and duplicate-cell diagnostics.
+#' @return
+#' A tibble with one row per panel unit that has duplicate cells. The output
+#' includes:
+#'
+#' \describe{
+#'   \item{`unfiy_duplicate_cells`}{Number of duplicated unit-time cells for the unit.}
+#'   \item{`unfiy_duplicate_extra_rows`}{Number of extra rows caused by duplicates.}
+#' }
+#'
+#' If no duplicates are present, the function returns all units with zero
+#' duplicate cells and zero extra rows.
+#'
+#' @seealso
+#' [audit_panel()], [panel_duplicates()], [duplicate_cells()],
+#' [flag_panel_issues()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B", "B", "B", "C", "C", "C"),
-#'   year = c(2020, 2021, 2020, 2021, 2021, 2020, 2020, 2021),
-#'   wage = c(100, 110, 90, 95, 96, 80, 81, 85)
-#' )
+#' duplicate_summary(example_panel, id = id, time = year)
 #'
-#' duplicate_summary(df, id = district, time = year)
+#' @export#' Summarize duplicate unit-time cells by panel unit
+#'
+#' `duplicate_summary()` reports how many duplicate unit-time cells each panel
+#' unit has.
+#'
+#' @details
+#' This function summarizes duplicate cells at the panel-unit level. It is useful
+#' when users want to identify which units contribute most to duplicate
+#' unit-time observations.
+#'
+#' The output reports both the number of duplicated cells and the number of
+#' extra rows implied by those duplicates. For example, if one unit-time cell
+#' appears three times, it counts as one duplicate cell and two extra rows.
+#'
+#' The function does not modify, drop, aggregate, or impute the data.
+#'
+#' @param data A data frame or tibble.
+#' @param id Unquoted column name identifying the panel unit.
+#' @param time Unquoted column name identifying the time period.
+#'
+#' @return
+#' A tibble with one row per panel unit that has duplicate cells. The output
+#' includes:
+#'
+#' \describe{
+#'   \item{`unfiy_duplicate_cells`}{Number of duplicated unit-time cells for the unit.}
+#'   \item{`unfiy_duplicate_extra_rows`}{Number of extra rows caused by duplicates.}
+#' }
+#'
+#' If no duplicates are present, the function returns all units with zero
+#' duplicate cells and zero extra rows.
+#'
+#' @seealso
+#' [audit_panel()], [panel_duplicates()], [duplicate_cells()],
+#' [flag_panel_issues()]
+#'
+#' @examples
+#' duplicate_summary(example_panel, id = id, time = year)
 #'
 #' @export
+
+
 duplicate_summary <- function(data, id, time) {
   if (!inherits(data, "data.frame")) {
     stop("`data` must be a data frame or tibble.", call. = FALSE)

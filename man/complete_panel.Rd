@@ -9,26 +9,51 @@ complete_panel(data, id, time)
 \arguments{
 \item{data}{A data frame or tibble.}
 
-\item{id}{Unquoted column name identifying the panel unit.}
+\item{id}{Unquoted column name identifying the panel unit, such as a person,
+firm, district, county, or country.}
 
-\item{time}{Unquoted column name identifying the time period.}
+\item{time}{Unquoted column name identifying the time period, such as a year,
+month, quarter, or date.}
 }
 \value{
-A tibble with completed id-time cells and audit columns:
-\code{unfiy_original_row}, \code{unfiy_completed_cell}, and \code{unfiy_audit_action}.
+A tibble containing the completed panel grid. The returned data include the
+original columns plus the following audit columns:
+
+\describe{
+\item{\code{unfiy_original_row}}{Logical indicator for rows present in the
+original data.}
+\item{\code{unfiy_completed_cell}}{Logical indicator for rows created by
+\code{complete_panel()}.}
+\item{\code{unfiy_audit_action}}{Character label describing whether a row was
+original or added during panel completion.}
+}
+
+The returned tibble also includes attributes documenting the panel identifier,
+time variable, number of completed cells, and audit note.
 }
 \description{
-\code{complete_panel()} expands a panel dataset so that every observed unit has
-every observed time period. Newly created id-time cells are explicitly
-flagged. The function does not impute values for substantive variables.
+\code{complete_panel()} expands a panel dataset so that every observed panel unit
+appears in every observed time period. Newly created unit-time cells are
+flagged with audit columns, and substantive variables are left missing.
+}
+\details{
+The function first audits the panel using \code{\link[=audit_panel]{audit_panel()}}. If duplicate
+unit-time cells are present, the function stops with an error. This is
+intentional: completing a panel with duplicate unit-time observations can
+produce ambiguous results.
+
+\code{complete_panel()} does not impute outcomes, covariates, treatment variables,
+or any other substantive variables. It only creates the missing unit-time
+rows implied by the full unit-by-time grid. Newly created rows are flagged
+using audit columns.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B"),
-  year = c(2020, 2021, 2020),
-  wage = c(100, 110, 90)
-)
+panel_unique <- example_panel |>
+  dplyr::distinct(id, year, .keep_all = TRUE)
 
-complete_panel(df, id = district, time = year)
+complete_panel(panel_unique, id = id, time = year)
 
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=missing_cells]{missing_cells()}}, \code{\link[=gap_summary]{gap_summary()}}, \code{\link[=duplicate_summary]{duplicate_summary()}}
 }

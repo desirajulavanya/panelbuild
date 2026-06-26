@@ -2,7 +2,7 @@
 % Please edit documentation in R/panel_duplicates.R
 \name{panel_duplicates}
 \alias{panel_duplicates}
-\title{Identify duplicate id-time cells in a panel dataset}
+\title{Identify duplicate unit-time cells}
 \usage{
 panel_duplicates(data, id, time)
 }
@@ -14,22 +14,25 @@ panel_duplicates(data, id, time)
 \item{time}{Unquoted column name identifying the time period.}
 }
 \value{
-A tibble containing duplicate id-time combinations and counts.
+A tibble containing duplicate unit-time combinations and a count column \code{n}.
 }
 \description{
-\code{panel_duplicates()} returns id-time combinations that appear more than once
-in a panel dataset.
+\code{panel_duplicates()} returns unit-time combinations that appear more than
+once in a panel dataset.
 }
 \details{
+Duplicate unit-time cells occur when the same panel unit appears more than
+once in the same time period. These duplicates can create problems for panel
+completion, fixed effects models, difference-in-differences designs, and
+other longitudinal-data workflows.
+
 The function does not modify, drop, aggregate, or impute the data.
 }
 \examples{
-df <- tibble::tibble(
-  district = c("A", "A", "B", "B", "B"),
-  year = c(2020, 2021, 2020, 2021, 2021),
-  wage = c(100, 110, 90, 95, 96)
-)
+panel_duplicates(example_panel, id = id, time = year)
 
-panel_duplicates(df, id = district, time = year)
-
+}
+\seealso{
+\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=duplicate_summary]{duplicate_summary()}}, \code{\link[=duplicate_cells]{duplicate_cells()}},
+\code{\link[=flag_panel_issues]{flag_panel_issues()}}
 }

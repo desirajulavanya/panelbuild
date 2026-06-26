@@ -1,27 +1,41 @@
 #' Audit a panel dataset
 #'
-#' `audit_panel()` checks the basic structure of a panel dataset. It reports
-#' the number of units, time periods, observed rows, expected rows, missing
-#' id-time cells, duplicate id-time cells, and whether the panel is balanced.
+#' `audit_panel()` checks whether a dataset has the expected structure of a
+#' panel dataset. It reports the number of panel units, time periods, observed
+#' rows, unique unit-time cells, expected unit-time cells, missing unit-time
+#' cells, duplicate unit-time cells, and whether the panel is balanced.
 #'
-#' The function does not modify the input data.
+#' @details
+#' A panel is treated as balanced when every observed panel unit appears in
+#' every observed time period exactly once. Missing cells are unit-time
+#' combinations that are implied by the full unit-by-time grid but are not
+#' present in the data. Duplicate cells are unit-time combinations that appear
+#' more than once.
+#'
+#' `audit_panel()` does not modify the input data. It returns an audit object
+#' that can be summarized with `audit_summary()` and inspected with accessor
+#' functions such as `missing_cells()` and `duplicate_cells()`.
 #'
 #' @param data A data frame or tibble.
-#' @param id Unquoted column name identifying the panel unit.
-#' @param time Unquoted column name identifying the time period.
+#' @param id Unquoted column name identifying the panel unit, such as a person,
+#'   firm, district, county, or country.
+#' @param time Unquoted column name identifying the time period, such as a year,
+#'   month, quarter, or date.
 #'
-#' @return An object of class `unfiy_panel_audit`.
+#' @return
+#' An object of class `unfiy_panel_audit`. The object is a list containing panel
+#' metadata, balance information, counts of missing and duplicate unit-time
+#' cells, and data frames containing the missing and duplicate cells.
+#'
+#' @seealso
+#' [audit_summary()], [missing_cells()], [duplicate_cells()],
+#' [duplicate_summary()], [gap_summary()], [complete_panel()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B", "B", "B"),
-#'   year = c(2020, 2021, 2020, 2021, 2021),
-#'   wage = c(100, 110, 90, 95, 96)
-#' )
-#'
-#' audit_panel(df, id = district, time = year)
+#' audit_panel(example_panel, id = id, time = year)
 #'
 #' @export
+
 audit_panel <- function(data, id, time) {
   if (!inherits(data, "data.frame")) {
     stop("`data` must be a data frame or tibble.", call. = FALSE)

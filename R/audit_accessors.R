@@ -1,23 +1,29 @@
-#' Extract missing panel cells
+#' Extract missing unit-time cells from a panel audit
 #'
-#' `missing_cells()` extracts the missing id-time combinations from an
-#' `unfiy_panel_audit` object.
+#' `missing_cells()` extracts the missing unit-time combinations stored in an
+#' audit object created by [audit_panel()].
+#'
+#' @details
+#' Missing cells are unit-time combinations that are implied by the full
+#' unit-by-time grid but are not present in the original data.
+#'
+#' This function does not re-audit the original dataset. It simply extracts the
+#' missing-cell table already stored in the audit object.
 #'
 #' @param x An object created by [audit_panel()].
 #'
-#' @return A tibble containing missing id-time combinations.
+#' @return
+#' A tibble containing missing unit-time combinations.
+#'
+#' @seealso
+#' [audit_panel()], [panel_gaps()], [gap_summary()], [complete_panel()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B"),
-#'   year = c(2020, 2021, 2020),
-#'   wage = c(100, 110, 90)
-#' )
-#'
-#' audit <- audit_panel(df, id = district, time = year)
+#' audit <- audit_panel(example_panel, id = id, time = year)
 #' missing_cells(audit)
 #'
 #' @export
+
 missing_cells <- function(x) {
   if (!inherits(x, "unfiy_panel_audit")) {
     stop("`x` must be an object created by `audit_panel()`.", call. = FALSE)
@@ -27,26 +33,36 @@ missing_cells <- function(x) {
 }
 
 
-#' Extract duplicate panel cells
+#' Extract duplicate unit-time cells from a panel audit
 #'
-#' `duplicate_cells()` extracts duplicate id-time combinations from an
-#' `unfiy_panel_audit` object.
+#' `duplicate_cells()` extracts duplicate unit-time combinations stored in an
+#' audit object created by [audit_panel()].
+#'
+#' @details
+#' Duplicate cells are unit-time combinations that appear more than once in the
+#' original data. The returned table includes a count column `n` showing how
+#' many rows are present for each duplicated unit-time cell.
+#'
+#' This function does not re-audit the original dataset. It simply extracts the
+#' duplicate-cell table already stored in the audit object.
 #'
 #' @param x An object created by [audit_panel()].
 #'
-#' @return A tibble containing duplicate id-time combinations and counts.
+#' @return
+#' A tibble containing duplicate unit-time combinations and a count column `n`.
+#'
+#' @seealso
+#' [audit_panel()], [panel_duplicates()], [duplicate_summary()],
+#' [flag_panel_issues()]
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   district = c("A", "A", "B", "B", "B"),
-#'   year = c(2020, 2021, 2020, 2021, 2021),
-#'   wage = c(100, 110, 90, 95, 96)
-#' )
-#'
-#' audit <- audit_panel(df, id = district, time = year)
+#' audit <- audit_panel(example_panel, id = id, time = year)
 #' duplicate_cells(audit)
 #'
 #' @export
+
+
+
 duplicate_cells <- function(x) {
   if (!inherits(x, "unfiy_panel_audit")) {
     stop("`x` must be an object created by `audit_panel()`.", call. = FALSE)
