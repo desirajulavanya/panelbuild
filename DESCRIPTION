@@ -19,7 +19,7 @@ Suggests:
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://desirajulavanya.github.io/R-Package-Unify/
+URL: URL: https://desirajulavanya.github.io/R-Package-Unify/, https://github.com/desirajulavanya/R-Package-Unify
 BugReports: https://github.com/desirajulavanya/R-Package-Unify/issues
 Depends: 
     R (>= 3.5)
