@@ -6,6 +6,10 @@ output: github_document
 
 `unifyr` provides tools for auditing, validating, and preparing panel datasets before statistical analysis.
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/desirajulavanya/R-Package-Unify/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/desirajulavanya/R-Package-Unify/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 ## Installation
 
 You can install the development version of `unifyr` from GitHub:

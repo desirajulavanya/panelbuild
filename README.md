@@ -4,6 +4,11 @@
 `unifyr` provides tools for auditing, validating, and preparing panel
 datasets before statistical analysis.
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/desirajulavanya/R-Package-Unify/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/desirajulavanya/R-Package-Unify/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 ## Installation
 
 You can install the development version of `unifyr` from GitHub:
@@ -73,8 +78,8 @@ duplicate_summary(example_panel, id = id, time = year)
 
     ## # A tibble: 1 × 3
     ##      id unifyr_duplicate_cells unifyr_duplicate_extra_rows
-    ##   <dbl>                 <int>                      <int>
-    ## 1     1                     1                          1
+    ##   <dbl>                  <int>                       <int>
+    ## 1     1                      1                           1
 
 ## Summarize panel gaps
 
@@ -84,9 +89,9 @@ gap_summary(example_panel, id = id, time = year)
 
     ## # A tibble: 2 × 2
     ##      id unifyr_missing_periods
-    ##   <dbl>                 <int>
-    ## 1     1                     2
-    ## 2     2                     2
+    ##   <dbl>                  <int>
+    ## 1     1                      2
+    ## 2     2                      2
 
 ## Flag row-level panel issues
 
@@ -96,16 +101,16 @@ flag_panel_issues(example_panel, id = id, time = year)
 
     ## # A tibble: 9 × 7
     ##      id  year outcome treatment unifyr_row_id unifyr_id_time_n
-    ##   <dbl> <dbl>   <dbl>     <dbl>        <int>           <int>
-    ## 1     1  2020      10         0            1               1
-    ## 2     1  2021      12         1            2               2
-    ## 3     1  2021      13         1            3               2
-    ## 4     2  2020      20         0            4               1
-    ## 5     2  2022      25         1            5               1
-    ## 6     3  2020      30         0            6               1
-    ## 7     3  2021      31         0            7               1
-    ## 8     3  2022      32         1            8               1
-    ## 9     3  2023      33         1            9               1
+    ##   <dbl> <dbl>   <dbl>     <dbl>         <int>            <int>
+    ## 1     1  2020      10         0             1                1
+    ## 2     1  2021      12         1             2                2
+    ## 3     1  2021      13         1             3                2
+    ## 4     2  2020      20         0             4                1
+    ## 5     2  2022      25         1             5                1
+    ## 6     3  2020      30         0             6                1
+    ## 7     3  2021      31         0             7                1
+    ## 8     3  2022      32         1             8                1
+    ## 9     3  2023      33         1             9                1
     ## # ℹ 1 more variable: unifyr_duplicate_cell <lgl>
 
 ## Complete the panel grid
@@ -125,19 +130,19 @@ complete_panel(example_panel_unique, id = id, time = year)
 
     ## # A tibble: 12 × 7
     ##       id  year outcome treatment unifyr_original_row unifyr_completed_cell
-    ##    <dbl> <dbl>   <dbl>     <dbl> <lgl>              <lgl>               
-    ##  1     1  2020      10         0 TRUE               FALSE               
-    ##  2     1  2021      12         1 TRUE               FALSE               
-    ##  3     1  2022      NA        NA FALSE              TRUE                
-    ##  4     1  2023      NA        NA FALSE              TRUE                
-    ##  5     2  2020      20         0 TRUE               FALSE               
-    ##  6     2  2021      NA        NA FALSE              TRUE                
-    ##  7     2  2022      25         1 TRUE               FALSE               
-    ##  8     2  2023      NA        NA FALSE              TRUE                
-    ##  9     3  2020      30         0 TRUE               FALSE               
-    ## 10     3  2021      31         0 TRUE               FALSE               
-    ## 11     3  2022      32         1 TRUE               FALSE               
-    ## 12     3  2023      33         1 TRUE               FALSE               
+    ##    <dbl> <dbl>   <dbl>     <dbl> <lgl>               <lgl>                
+    ##  1     1  2020      10         0 TRUE                FALSE                
+    ##  2     1  2021      12         1 TRUE                FALSE                
+    ##  3     1  2022      NA        NA FALSE               TRUE                 
+    ##  4     1  2023      NA        NA FALSE               TRUE                 
+    ##  5     2  2020      20         0 TRUE                FALSE                
+    ##  6     2  2021      NA        NA FALSE               TRUE                 
+    ##  7     2  2022      25         1 TRUE                FALSE                
+    ##  8     2  2023      NA        NA FALSE               TRUE                 
+    ##  9     3  2020      30         0 TRUE                FALSE                
+    ## 10     3  2021      31         0 TRUE                FALSE                
+    ## 11     3  2022      32         1 TRUE                FALSE                
+    ## 12     3  2023      33         1 TRUE                FALSE                
     ## # ℹ 1 more variable: unifyr_audit_action <chr>
 
 ## Main functions
