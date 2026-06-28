@@ -1,9 +1,9 @@
+Description: Provides tools for auditing, validating, and preparing panel datasets before statistical analysis. Functions identify duplicate unit-time observations, missing unit-time cells, panel gaps, and balance issues. The package also provides audit summaries, row-level diagnostic flags, panel-completion utilities, and a concise audit report.
 Package: panelbuild
-Title: Post-Import Panel Data Auditing and Preparation Tools
+Title: Panel Data Auditing, Validation, and Preparation Tools
 Version: 0.1.0
 Authors@R: 
     person("Lavanya", "Desiraju", email = "desirajulavanya@gmail.com", role = c("aut", "cre"))
-Description: panelbuild provides tools for auditing, validating, and preparing longitudinal and panel datasets prior to statistical analysis. The package detects duplicate unit-time observations, identifies missing panel cells, summarizes panel balance, flags data-quality issues, and creates reproducible panel-completion workflows without altering observed data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

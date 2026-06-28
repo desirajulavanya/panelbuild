@@ -19,6 +19,19 @@ You can install the development version of `panelbuild` from GitHub:
 remotes::install_github("desirajulavanya/panelbuild")
 ```
 
+## Quick start
+
+
+```{r}
+library(panelbuild)
+
+audit <- audit_panel(example_panel, id = id, time = year)
+
+audit
+
+audit_report(audit)
+```
+
 ## Why panelbuild?
 
 Panel datasets often contain missing unit-time cells, duplicate observations, irregular time gaps, and imbalance. These issues can affect fixed effects models, difference-in-differences designs, event studies, and other panel-data methods.

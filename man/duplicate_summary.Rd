@@ -24,17 +24,6 @@ includes:
 
 If no duplicates are present, the function returns all units with zero
 duplicate cells and zero extra rows.
-
-A tibble with one row per panel unit that has duplicate cells. The output
-includes:
-
-\describe{
-\item{\code{panelbuild_duplicate_cells}}{Number of duplicated unit-time cells for the unit.}
-\item{\code{panelbuild_duplicate_extra_rows}}{Number of extra rows caused by duplicates.}
-}
-
-If no duplicates are present, the function returns all units with zero
-duplicate cells and zero extra rows.
 }
 \description{
 \code{duplicate_summary()} reports how many duplicate unit-time cells each panel
@@ -50,27 +39,12 @@ extra rows implied by those duplicates. For example, if one unit-time cell
 appears three times, it counts as one duplicate cell and two extra rows.
 
 The function does not modify, drop, aggregate, or impute the data.
-
-This function summarizes duplicate cells at the panel-unit level. It is useful
-when users want to identify which units contribute most to duplicate
-unit-time observations.
-
-The output reports both the number of duplicated cells and the number of
-extra rows implied by those duplicates. For example, if one unit-time cell
-appears three times, it counts as one duplicate cell and two extra rows.
-
-The function does not modify, drop, aggregate, or impute the data.
 }
 \examples{
 duplicate_summary(example_panel, id = id, time = year)
 
-duplicate_summary(example_panel, id = id, time = year)
-
 }
 \seealso{
-\code{\link[=audit_panel]{audit_panel()}}, \code{\link[=panel_duplicates]{panel_duplicates()}}, \code{\link[=duplicate_cells]{duplicate_cells()}},
-\code{\link[=flag_panel_issues]{flag_panel_issues()}}
-
 \code{\link[=audit_panel]{audit_panel()}}, \code{\link[=panel_duplicates]{panel_duplicates()}}, \code{\link[=duplicate_cells]{duplicate_cells()}},
 \code{\link[=flag_panel_issues]{flag_panel_issues()}}
 }
